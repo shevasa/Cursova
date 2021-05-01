@@ -70,6 +70,15 @@ CREATE TABLE IF NOT EXISTS Artist_genre (
     genre_id INT REFERENCES Genres(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS concurs_participants(
+    id_concursor INT REFERENCES specific_event(id),
+    id_participant INT REFERENCES artists(id),
+    place INT NOT NULL
+);
+
+ALTER TABLE concurs_participants ADD CONSTRAINT unique_participant UNIQUE (id_concursor, id_participant, place)
+ALTER TABLE concurs_participants ADD CONSTRAINT unique_concurs_place UNIQUE (id_concursor, place)
+
 ALTER TABLE Impressarios ADD COLUMN genre_id INT REFERENCES Genres(id);
 
 ALTER TABLE artist_genre ADD CONSTRAINT unique_record UNIQUE (artist_id, genre_id);

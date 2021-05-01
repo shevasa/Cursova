@@ -36,8 +36,8 @@ class Database:
                     result = await connection.execute(command, *args)
             return result
 
-    async def task1(self, command, *args):
+    async def task2(self, command, genre):
         sql = """
-        
+        select 
         """
 
