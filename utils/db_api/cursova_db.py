@@ -78,3 +78,15 @@ class Database:
                 return await self.execute(sql, *parameters, fetch=True)
             else:
                 return await self.execute(sql, fetch=True)
+
+    async def get_genres(self):
+        sql = "SELECT name FROM genres WHERE True"
+        return await self.execute(sql, fetch=True)
+
+    async def task2(self, genre):
+        sql = """select a.name as artist_name, g.name as genre
+                    from artist_genre ag
+                        left join artists a on ag.artist_id = a.id
+                        left join genres g on ag.genre_id = g.id
+                    where g.name=$1"""
+        return await self.execute(sql, genre, fetch=True)
