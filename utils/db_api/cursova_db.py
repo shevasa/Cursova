@@ -90,3 +90,15 @@ class Database:
                         left join genres g on ag.genre_id = g.id
                     where g.name=$1"""
         return await self.execute(sql, genre, fetch=True)
+
+    async def get_impressarios_names(self):
+        sql = "SELECT name FROM impressarios WHERE TRUE"
+        return await self.execute(sql, fetch=True)
+
+    async def task3(self, impressario_name):
+        sql = """select a.name as artist_name, i.name as impressario_name
+                    from artist_impressario ai
+                             left join artists a on ai.artist_id = a.id
+                             left join impressarios i on ai.impressarios_id = i.id
+                    where i.name = $1;"""
+        return await self.execute(sql, impressario_name, fetch=True)
