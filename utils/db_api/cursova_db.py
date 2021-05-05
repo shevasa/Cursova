@@ -100,5 +100,35 @@ class Database:
                     from artist_impressario ai
                              left join artists a on ai.artist_id = a.id
                              left join impressarios i on ai.impressarios_id = i.id
-                    where i.name = $1;"""
+                    where i.name = $1"""
         return await self.execute(sql, impressario_name, fetch=True)
+
+    async def task4(self):
+        sql = """select a.name as artist_name, g.name as genre
+                    from (select artist_id, count(genre_id) from artist_genre ag group by artist_id having count(genre_id) > 1) ac
+                        left join artists a on ac.artist_id = a.id
+                        left join artist_genre ag on ag.artist_id = a.id
+                        left join genres g on g.id = ag.genre_id
+                    ORDER BY a.name;"""
+        return await self.execute(sql, fetch=True)
+
+    async def get_artists_names(self):
+        sql = "SELECT name FROM artists where True"
+        return await self.execute(sql, fetch=True)
+
+    async def task5(self, artist_name):
+        sql = """select a.name as artist_name, i.name as impressario_name
+                    from artist_impressario ai
+                        left join artists a on ai.artist_id = a.id
+                        left join impressarios i on ai.impressarios_id = i.id
+                    where a.name = $1"""
+        return await self.execute(sql, artist_name, fetch=True)
+
+    async def task6(self, min_event_date, max_event_date):
+        sql = """select se.name as event_name, se.date, et.name as type_of_event, sp.name as place, o.name as organizator
+                    from specific_event se
+                        left join organizers o on se.organizer_id = o.id
+                        left join specific_place sp on se.place_id = sp.id
+                        left join event_types et on se.type_id = et.id
+                        where date > $1 and date < $2"""
+        return await self.execute(sql, min_event_date, max_event_date, fetch=True)
