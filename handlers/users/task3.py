@@ -1,7 +1,7 @@
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 
-from keyboards.inline.task3_5_ikeyboard import get_impressarios_names
+from keyboards.inline.task3_5_7_8_ikeyboard import get_impressarios_names
 from loader import dp, db
 from states.Tasks_states import Task_3
 
@@ -17,6 +17,7 @@ async def start_task1(message: types.Message):
 @dp.callback_query_handler(state=Task_3.task3)
 async def catch_and_search(call: types.CallbackQuery, state: FSMContext):
     result = await db.task3(call.data)
+    await call.answer()
     await call.message.answer("<b>Результат:</b>", parse_mode='html')
     if result:
         for record in result:

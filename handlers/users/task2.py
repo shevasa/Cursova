@@ -18,6 +18,7 @@ async def start_task1(message: types.Message):
 @dp.callback_query_handler(state=Task_2.task2)
 async def catch_and_search(call: types.CallbackQuery, state: FSMContext):
     result = await db.task2(call.data)
+    await call.answer()
     await call.message.answer("<b>Результат:</b>", parse_mode='html')
     if result:
         for record in result:

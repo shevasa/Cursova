@@ -126,6 +126,7 @@ async def submit(call: types.CallbackQuery, state: FSMContext):
 async def get_result(call: types.CallbackQuery, state: FSMContext):
     data = await state.get_data()
     result = await db.task1(**data)
+    await call.answer()
     await call.message.answer("<b>Результат:</b>", parse_mode='html')
     if result:
         for record in result:

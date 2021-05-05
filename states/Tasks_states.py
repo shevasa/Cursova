@@ -18,4 +18,9 @@ class Task_6(StatesGroup):
     search = State()
 
 
+class Task_7(StatesGroup):
+    task7 = State()
 
+
+class Task_8(StatesGroup):
+    task8 = State()

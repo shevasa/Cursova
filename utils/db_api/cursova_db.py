@@ -132,3 +132,28 @@ class Database:
                         left join event_types et on se.type_id = et.id
                         where date > $1 and date < $2"""
         return await self.execute(sql, min_event_date, max_event_date, fetch=True)
+
+    async def task7(self, concurs):
+        sql = """select concurs.name as concurs_name, a.name as participant_name, cp.place as place
+                    from (select id, name from specific_event where type_id = 3) concurs
+                             left join concurs_participants cp on concurs.id = cp.id_concurs
+                             left join artists a on cp.id_participant = a.id
+                    where cp.place < 4
+                      AND cp.place > 0
+                      AND concurs.name = $1
+                    order by cp.place asc"""
+        return await self.execute(sql, concurs, fetch=True)
+
+    async def get_concurs_name(self):
+        sql = "SELECT name FROM specific_event where type_id=3"
+        return await self.execute(sql, fetch=True)
+
+    async def get_place_name(self):
+        sql = "SELECT name FROM specific_place WHERE TRUE"
+        return await self.execute(sql, fetch=True)
+
+    async def task8(self, place):
+        sql = """select se.name as event_name, place.name as place
+                    from (select id, name from specific_place where name = $1) place
+                             inner join specific_event se on place.id = se.place_id;"""
+        return await self.execute(sql, place, fetch=True)

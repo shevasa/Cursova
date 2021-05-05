@@ -36,6 +36,7 @@ async def full_or_not(message: types.Message, state: FSMContext):
 @dp.callback_query_handler(state=Task_6.search)
 async def catch_and_search(call: types.CallbackQuery, state: FSMContext):
     dates = await state.get_data("date")
+    await call.answer()
     min_event_date, max_event_date = dates.get("date").split(" ")
     min_event_date = datetime.strptime(min_event_date, '%Y-%m-%d')
     max_event_date = datetime.strptime(max_event_date, '%Y-%m-%d')
