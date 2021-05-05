@@ -24,3 +24,19 @@ class Task_7(StatesGroup):
 
 class Task_8(StatesGroup):
     task8 = State()
+
+
+class Task_9(StatesGroup):
+    task9 = State()
+
+
+class Task_10(StatesGroup):
+    task10 = State()
+
+
+class Task_11(StatesGroup):
+    task11 = State()
+
+
+class Task_12(StatesGroup):
+    task12 = State()

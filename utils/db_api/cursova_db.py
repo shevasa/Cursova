@@ -157,3 +157,42 @@ class Database:
                     from (select id, name from specific_place where name = $1) place
                              inner join specific_event se on place.id = se.place_id;"""
         return await self.execute(sql, place, fetch=True)
+
+    async def task9(self, genre):
+        sql = """select g.name as genre, i.name as impressario
+                    from genres g
+                             right join impressarios i on g.id = i.genre_id
+                    where g.name = $1"""
+        return await self.execute(sql, genre, fetch=True)
+
+    async def task10(self, min_date, max_date):
+        sql = """select distinct a.name
+                    from (select id
+                          from specific_event
+                          where type_id = 3
+                            AND date > $1
+                            AND date < $2) event
+                             left join concurs_participants cp on event.id = cp.id_concurs
+                             left join artists a on cp.id_participant = a.id;"""
+        return await self.execute(sql, min_date, max_date, fetch=True)
+
+    async def task11(self, min_date, max_date):
+        sql = """select o.name as organizator, count(event.id) as number_of_events
+                    from (select id, organizer_id
+                          from specific_event
+                          where date > $1
+                            AND date < $2) event
+                             left join organizers o on event.organizer_id = o.id
+                    group by o.name;"""
+        return await self.execute(sql, min_date, max_date, fetch=True)
+
+    async def task12(self, min_date, max_date):
+        sql = """select sp.name as location, event.date as date_of_event, event.name as event_name
+                    from (select id, place_id, name, date
+                          from specific_event
+                          where date > $1
+                            AND date < $2) event
+                             left join specific_place sp on event.place_id = sp.id"""
+        return await self.execute(sql, min_date, max_date, fetch=True)
+
+
