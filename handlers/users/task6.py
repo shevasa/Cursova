@@ -40,16 +40,15 @@ async def catch_and_search(call: types.CallbackQuery, state: FSMContext):
     min_event_date, max_event_date = dates.get("date").split(" ")
     min_event_date = datetime.strptime(min_event_date, '%Y-%m-%d')
     max_event_date = datetime.strptime(max_event_date, '%Y-%m-%d')
-    result = await db.task6(min_event_date,max_event_date)
+    result = await db.task6(min_event_date, max_event_date)
     await call.message.answer("<b>Результат:</b>", parse_mode='html')
-    logging.info(f"{call.data}")
     if result:
         for record in result:
             record_data = dict(record)
             if call.data == "true":
                 await call.message.answer(f"<code>Назва події: {record_data.get('event_name')}</code>\n"
                                           f"<code>Дата події: {record_data.get('date')}</code>\n"
-                                          f"<code>Тип події: {record_data.get('type_of-event')}</code>\n"
+                                          f"<code>Тип події: {record_data.get('type_of_event')}</code>\n"
                                           f"<code>Місце: {record_data.get('place')}</code>\n"
                                           f"<code>Організатор: {record_data.get('organizator')}</code>\n",
                                           parse_mode='html')

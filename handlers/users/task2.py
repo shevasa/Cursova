@@ -10,7 +10,7 @@ from states.Task2 import Task_2
 @dp.message_handler(text="Завдання №2")
 async def start_task1(message: types.Message):
     ikeyboard = await get_genres_ikeyboard()
-    await message.answer("Виконуємо <b>Завдання №2</b>"
+    await message.answer("Виконуємо <b>Завдання №2</b>\n"
                          "Артистів якого жанру знайти?", reply_markup=ikeyboard)
     await Task_2.task2.set()
 
